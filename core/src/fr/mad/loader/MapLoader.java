@@ -1,4 +1,4 @@
-package fr.mad.youare;
+package fr.mad.loader;
 
 import com.badlogic.gdx.assets.AssetDescriptor;
 import com.badlogic.gdx.assets.AssetLoaderParameters;
@@ -11,7 +11,7 @@ import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader.Parameters;
 import com.badlogic.gdx.utils.Array;
 
-import fr.mad.youare.MapLoader.Parameter;
+import fr.mad.loader.MapLoader.Parameter;
 import fr.mad.youare.map.Map;
 
 public class MapLoader extends AsynchronousAssetLoader<Map, Parameter> {

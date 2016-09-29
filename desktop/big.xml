@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+	<Effects>
+		<Damage name="Lethal"/>
+		<Damage name="Fire"/>
+		<Effect name="Poison">
+			<Behavior type="damage" damage="1">
+				<Timer delay="0" interval="1000" repeat="5"/>
+			</Behavior>
+		</Effect>
+		<Effect name="Speed">
+			<Behavior level="1" type="speed" speed="1">
+				<OffTimer delay="5000"/>
+			</Behavior>
+			<Behavior level="2" type="speed" speed="2">
+				<OffTimer delay="5000"/>
+			</Behavior>
+			<Behavior level="3" type="speed" speed="3">
+				<OffTimer delay="5000"/>
+			</Behavior>
+			<Behavior level="4" type="speed" speed="4">
+				<OffTimer delay="5000"/>
+			</Behavior>
+			<Behavior level="5" type="speed" speed="5">
+				<OffTimer delay="5000"/>
+			</Behavior>
+		</Effect>
+	</Effects>
+	<Units>
+		<Unit name="L" fullName="Litre" type="Volume"/>
+		<Unit name="m^3" fullName="Cubic Meter" type="Volume"/>
+		<Unit name="lb" fullName="Pound" type="Weight"/>
+		<Unit name="kg" fullName="KiloGramme" type="Weight"/>
+		<Unit name="$" fullName="Dollard" type="Money"/>
+		<Unit name="£" fullName="Pound" type="Money"/>
+		<Conversion from="L" to="m^3" value="0.001"/>
+		<Conversion from="lb" to="kg" value="0.453592"/>
+		<Conversion from="$" to="£" value="0.77038336"/>
+	</Units>
+	<Item id="un_Nom_Unique">
+		<Info>
+			<Name color="orange or ORANGE or 255,200,0 (r,g,b)">le nom afficher</Name>
+			<Description color="blue">a long text that can be on multiple line.</Description>
+			<Max_Stack>15</Max_Stack>
+			<Volume unit="L" value="100"/>
+			<Weight unit="lb" value="30"/>
+			<Value unit="$" value="5000"/>
+			<Effects casting="1000" timeout="10000">
+				<Active>
+					<OnEnemy>
+						<Damage name="Lethal" value="5"/>
+					</OnEnemy>
+					<OnPlayer>
+						<Effect needHit="false" name="Speed"/>
+						<Damage needHit="true" value="-5"/>
+					</OnPlayer>
+				</Active>
+				<Passive>
+					<Damage name="Lethal" value="-10"/>
+					<Damage name="Fire" value="100"/>
+				</Passive>
+			</Effects>
+		</Info>
+		<Sprite type="Animation">
+			<!--can be an Animation or a Texture. In case of a texture just add one frame tag-->
+			<Frames frameDuration="0.05">
+				<Frame path="../a/texture/animation.png">
+					<Offset x="0" y="0"/>
+					<Size Width="16" Height="16"/>
+				</Frame>
+				<Frame path="../a/texture/animation.png">
+					<Offset x="16" y="0"/>
+					<Size Width="16" Height="16"/>
+				</Frame>
+				<Frame path="../a/texture/animation.png">
+					<Offset x="32" y="0"/>
+					<Size Width="16" Height="16"/>
+				</Frame>
+				<Frame path="../a/texture/animation.png">
+					<Offset x="48" y="0"/>
+					<Size Width="16" Height="16"/>
+				</Frame>
+				<Frame path="../a/texture/animation.png">
+					<Offset x="64" y="0"/>
+					<Size Width="16" Height="16"/>
+				</Frame>
+				<Frame path="../a/texture/animation.png">
+					<Offset x="80" y="0"/>
+					<Size Width="16" Height="16"/>
+				</Frame>
+				<Frame path="../a/texture/animation.png">
+					<Offset x="96" y="0"/>
+					<Size Width="16" Height="16"/>
+				</Frame>
+				<Frame path="../a/texture/animation.png">
+					<Offset x="112" y="0"/>
+					<Size Width="16" Height="16"/>
+				</Frame>
+				<Frame path="../a/texture/animation.png">
+					<Offset x="128" y="0"/>
+					<Size Width="16" Height="16"/>
+				</Frame>
+				<Frame path="../a/texture/animation.png">
+					<Offset x="144" y="0"/>
+					<Size Width="16" Height="16"/>
+				</Frame>
+				<Frame path="../a/texture/animation.png">
+					<Offset x="0" y="16"/>
+					<Size Width="16" Height="16"/>
+				</Frame>
+				<Frame path="../a/texture/animation.png">
+					<Offset x="16" y="16"/>
+					<Size Width="16" Height="16"/>
+				</Frame>
+				<Frame path="../a/texture/animation.png">
+					<Offset x="32" y="16"/>
+					<Size Width="16" Height="16"/>
+				</Frame>
+				<Frame path="../a/texture/animation.png">
+					<Offset x="48" y="16"/>
+					<Size Width="16" Height="16"/>
+				</Frame>
+				<Frame path="../a/texture/animation.png">
+					<Offset x="64" y="16"/>
+					<Size Width="16" Height="16"/>
+				</Frame>
+				<Frame path="../a/texture/animation.png">
+					<Offset x="80" y="16"/>
+					<Size Width="16" Height="16"/>
+				</Frame>
+				<Frame path="../a/texture/animation.png">
+					<Offset x="96" y="16"/>
+					<Size Width="16" Height="16"/>
+				</Frame>
+				<Frame path="../a/texture/animation.png">
+					<Offset x="112" y="16"/>
+					<Size Width="16" Height="16"/>
+				</Frame>
+				<Frame path="../a/texture/animation.png">
+					<Offset x="128" y="16"/>
+					<Size Width="16" Height="16"/>
+				</Frame>
+				<Frame path="../a/texture/animation.png">
+					<Offset x="144" y="16"/>
+					<Size Width="16" Height="16"/>
+				</Frame>
+				<Frame path="../a/texture/animation.png">
+					<Offset x="0" y="32"/>
+					<Size Width="16" Height="16"/>
+				</Frame>
+				<Frame path="../a/texture/animation.png">
+					<Offset x="16" y="32"/>
+					<Size Width="16" Height="16"/>
+				</Frame>
+				<Frame path="../a/texture/animation.png">
+					<Offset x="32" y="32"/>
+					<Size Width="16" Height="16"/>
+				</Frame>
+				<Frame path="../a/texture/animation.png">
+					<Offset x="48" y="32"/>
+					<Size Width="16" Height="16"/>
+				</Frame>
+			</Frames>
+		</Sprite>
+	</Item>
+</root>
