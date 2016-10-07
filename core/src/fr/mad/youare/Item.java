@@ -2,7 +2,7 @@ package fr.mad.youare;
 
 import com.badlogic.gdx.utils.XmlReader.Element;
 
-import fr.mad.loader.xmlObjects.XmlSerial;
+import fr.mad.storage.xmlObjects.XmlSerial;
 import fr.mad.youare.item.AnimationComponent;
 import fr.mad.youare.item.SpriteComponent;
 

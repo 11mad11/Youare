@@ -1,4 +1,4 @@
-package fr.mad.youare.map.ressource;
+package fr.mad.youare.ressource;
 
 import com.badlogic.gdx.assets.loaders.FileHandleResolver;
 import com.badlogic.gdx.files.FileHandle;

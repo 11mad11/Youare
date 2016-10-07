@@ -9,12 +9,12 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.XmlReader;
 import com.badlogic.gdx.utils.XmlReader.Element;
 
-import fr.mad.loader.xmlObjects.Conversion;
-import fr.mad.loader.xmlObjects.Damage;
-import fr.mad.loader.xmlObjects.Effect;
-import fr.mad.loader.xmlObjects.Unit;
+import fr.mad.storage.xmlObjects.Conversion;
+import fr.mad.storage.xmlObjects.Damage;
+import fr.mad.storage.xmlObjects.Effect;
+import fr.mad.storage.xmlObjects.Unit;
 import fr.mad.youare.Item;
-import fr.mad.youare.map.ressource.Ressource;
+import fr.mad.youare.ressource.Ressource;
 
 public class MainXmlLoader {
 	

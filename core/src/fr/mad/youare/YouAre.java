@@ -23,8 +23,9 @@ public class YouAre extends Game {
 			damage(xml);
 			unit(xml);
 			item(xml);
+			comp(xml);
 			xml.pop();
-			xml.close();
+			xml.close();//TODO condition
 			Element root = new XmlReader().parse(Gdx.files.internal("big.xml"));
 			System.out.println(root.getName());
 		} catch (IOException e) {
@@ -32,6 +33,57 @@ public class YouAre extends Game {
 			e.printStackTrace();
 		}
 		System.exit(0);
+	}
+	
+	private void comp(XmlWriter xml) throws IOException {
+		xml.element("weapons");
+		{
+			
+		}
+		xml.pop();
+		
+		xml.element("Competences");
+		{
+			xml.element("Classe").attribute("name", "barbare");//*
+			{
+				xml.element("Skill").attribute("name", "Charge");
+				{
+					xml.element("Passive");
+					{
+						xml.element("Effect").attribute("name", "SpeedI").pop();
+					}
+					xml.pop();
+					xml.element("Active").attribute("need", "knif");
+					{
+						xml.element("Type");
+						{
+							//cibleAllier cibleEnemy cibleLanceur free
+							xml.element("Zone").attribute("cible", "free");//TODO go in type attribute
+							{
+								xml.element("Size").attribute("raduis", 2).attribute("degree", 20).attribute("offset", 10).pop();
+								xml.element("Limit").attribute("raduis", 10).pop();
+							}
+							xml.pop();
+							
+							//ally enemy
+							xml.element("Direct").attribute("cible", "ally").attribute("number", 1);
+							{
+								xml.element("Transfer").attribute("type", "electrical").attribute("zoneMax", 30).attribute("zone", 2).pop();
+								
+							}
+							xml.pop();
+						}
+						xml.pop();
+						xml.element("Effect").attribute("name", "SpeedV").pop();
+						xml.element("Damage").attribute("name", "Lethal").pop();
+					}
+					xml.pop();
+				}
+				xml.pop();
+			}
+			xml.pop();
+		}
+		xml.pop();
 	}
 	
 	private void damage(XmlWriter xml) throws IOException {
