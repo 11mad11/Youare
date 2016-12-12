@@ -6,19 +6,21 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Transform;
 
 public class TransformC extends Transform implements Component {
-	public Body body;
 	public Transform transform;
+	public Body body;
 	
-	public TransformC(Body body) {
-		this.body = body;
+	public TransformC(Body b) {
+		body = b;
+		transform = b.getTransform();
+		vals = transform.vals;
 	}
 	
 	public void begin() {
-		transform = body.getTransform();
+		body.getTransform();
 	}
 	
 	public void end() {
-		body.setTransform(getPosition(), getRotation());
+		body.setTransform(transform.getPosition(), transform.getRotation());
 	}
 	
 	/**
@@ -29,7 +31,7 @@ public class TransformC extends Transform implements Component {
 	public Vector2 mul(Vector2 v) {
 		return transform.mul(v);
 	}
-
+	
 	/**
 	 * @return
 	 * @see com.badlogic.gdx.physics.box2d.Transform#getPosition()
@@ -37,7 +39,7 @@ public class TransformC extends Transform implements Component {
 	public Vector2 getPosition() {
 		return transform.getPosition();
 	}
-
+	
 	/**
 	 * @param angle
 	 * @see com.badlogic.gdx.physics.box2d.Transform#setRotation(float)
@@ -45,7 +47,7 @@ public class TransformC extends Transform implements Component {
 	public void setRotation(float angle) {
 		transform.setRotation(angle);
 	}
-
+	
 	/**
 	 * @return
 	 * @see com.badlogic.gdx.physics.box2d.Transform#getRotation()
@@ -53,7 +55,7 @@ public class TransformC extends Transform implements Component {
 	public float getRotation() {
 		return transform.getRotation();
 	}
-
+	
 	/**
 	 * @return
 	 * @see com.badlogic.gdx.physics.box2d.Transform#getOrientation()
@@ -61,7 +63,7 @@ public class TransformC extends Transform implements Component {
 	public Vector2 getOrientation() {
 		return transform.getOrientation();
 	}
-
+	
 	/**
 	 * @param orientation
 	 * @see com.badlogic.gdx.physics.box2d.Transform#setOrientation(com.badlogic.gdx.math.Vector2)
@@ -69,7 +71,7 @@ public class TransformC extends Transform implements Component {
 	public void setOrientation(Vector2 orientation) {
 		transform.setOrientation(orientation);
 	}
-
+	
 	/**
 	 * @param pos
 	 * @see com.badlogic.gdx.physics.box2d.Transform#setPosition(com.badlogic.gdx.math.Vector2)
@@ -77,7 +79,7 @@ public class TransformC extends Transform implements Component {
 	public void setPosition(Vector2 pos) {
 		transform.setPosition(pos);
 	}
-
+	
 	/**
 	 * @return
 	 * @see java.lang.Object#toString()

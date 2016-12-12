@@ -163,6 +163,7 @@
 			</Frames>
 		</Sprite>
 	</Item>
+	<weapons/>
 	<Competences>
 		<Classe name="barbare">
 			<Skill name="Charge">

@@ -1,6 +1,7 @@
 package fr.mad.youare.damage;
 
 import com.badlogic.ashley.core.Entity;
+import com.badlogic.gdx.ai.msg.MessageDispatcher;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
@@ -15,18 +16,44 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.Timer.Task;
+import com.kotcrab.vis.ui.widget.ListView.UpdatePolicy;
 
 import fr.mad.youare.box2d.BodyHelper;
 import fr.mad.youare.box2d.ContactListeners;
+import fr.mad.youare.components.Components;
+import fr.mad.youare.components.EffectsC;
 
 public class Damage {
 	
-	public class Modifier {
-		//TODO
+	public static class Modifier {
+		public int modifyMax(int max){
+			return max;
+		}
+
+		public float modifyRadius(float radius) {
+			return radius;
+		}
+
+		public Effect modidyEffect(Effect effect) {
+			return effect;
+		}
+
+		public float modifyTimeout(float timeout) {
+			return timeout;
+		}
+
+		public String modifyAnimationKey(String animationKey) {
+			return animationKey;
+		}
 	}
 	
 	public static class Effect {
-		//TODO
+		public String name;
+		public String animationKey;
+		public String description;
+		public void run(Entity e){
+			
+		}
 	}
 	
 	public class Cast implements ContactListener {
@@ -50,6 +77,7 @@ public class Damage {
 		private int left;
 		private Task task;
 		public Array<ContactP> contacts = new Array<>();
+		public Array<Entity> entitys = new Array<>();
 		
 		private Cast(Vector2 cible, World world) {
 			this.world = world;
@@ -108,10 +136,10 @@ public class Damage {
 			if (contacts == null)
 				return;
 			while (contacts.size > 0) {
-				left--;
+				
 				ContactP c = contacts.pop();
-				c.bodyA.getClass();
-				//TODO
+				Components.effectsC.get(c.entity).effects.add(effect);
+				left--;
 				if (left <= 0) {
 					world.destroyBody(body);
 					ContactListeners.remove(this, world);
@@ -127,6 +155,9 @@ public class Damage {
 			Entity entity = BodyHelper.getUserData(contact, Entity.class, true);
 			if (entity == null)
 				return;
+			if(entitys.contains(entity, true))
+				return;
+			entitys.add(entity);
 			contacts.add(new ContactP(contact, entity));
 		}
 		
@@ -145,7 +176,6 @@ public class Damage {
 	}
 	
 	private Effect effect;
-	private Array<Modifier> modifiers = new Array<>();
 	private float radiusS;
 	private float radius;
 	private float timeout;
@@ -175,13 +205,6 @@ public class Damage {
 	 */
 	public Effect getEffect() {
 		return effect;
-	}
-	
-	/**
-	 * @return the modifiers
-	 */
-	public Array<Modifier> getModifiers() {
-		return modifiers;
 	}
 	
 	/**
@@ -219,15 +242,24 @@ public class Damage {
 		return animationKey;
 	}
 	
-	public Damage clone() {
+	public Damage clone(Modifier... modifiers) {
 		Damage damage = new Damage(effect, radius, max, timeout, animationKey);
+		float nradius;
 		for(Modifier m:modifiers){
-			damage.modifiers.add(m);
+			damage.max = m.modifyMax(damage.max);
+			nradius = m.modifyRadius(damage.radius);//TODO radiusR
+			damage.effect = m.modidyEffect(damage.effect);
+			damage.timeout = m.modifyTimeout(damage.timeout);
+			damage.animationKey = m.modifyAnimationKey(damage.animationKey);
+			if(nradius!=radius){
+				damage.radiusS = (float) Math.pow(nradius, 2);
+				damage.radius = nradius;
+			}
 		}
 		return damage;
 	}
 	
-	public Damage clearClone() {
+	public Damage clone() {
 		return new Damage(effect, radius, max, timeout, animationKey);
 	}
 }

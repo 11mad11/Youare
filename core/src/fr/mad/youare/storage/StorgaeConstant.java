@@ -10,7 +10,7 @@ public class StorgaeConstant {
 		public ObjectMap<String, Class<?>> getItems() {
 			ObjectMap<String, Class<?>> map = new ObjectMap<>();
 			map.put("Item", Item.class);
-			map.put("", value)
+			map.put("", value);
 			return map;
 		}
 	}

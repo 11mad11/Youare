@@ -3,6 +3,10 @@ package fr.mad.youare;
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.controllers.Controller;
+import com.badlogic.gdx.controllers.ControllerAdapter;
+import com.badlogic.gdx.controllers.ControllerManagerStub;
+import com.badlogic.gdx.controllers.Controllers;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -23,9 +27,14 @@ import com.badlogic.gdx.physics.box2d.Filter;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.MassData;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.Timer.Task;
 import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.brashmonkey.spriter.SCMLReader;
+
+import fr.mad.youare.screen.MenuSkin;
+import fr.mad.youare.system.RenderingS;
 
 public class SpeedBox2DTest implements ApplicationListener {
 	public static final float WORLD_TIME_STEP = 1 / 60f;
@@ -47,10 +56,16 @@ public class SpeedBox2DTest implements ApplicationListener {
 	private float mainAccu;
 	private int ups;
 	private float lastAccu;
-	private Vector2 impulse = new Vector2();
+	private Vector2 dir = new Vector2();
+	private RenderingS re;
+	private RealInputProcessor input;
 	
 	@Override
 	public void create() {
+		//MenuSkin.custom(null);
+		input = new RealInputProcessor();
+		Array<Controller> c = Controllers.getControllers();
+		input.setInputs(Gdx.input, c.size > 0 ? c.first() : null, null);
 		r = new Box2DDebugRenderer();
 		cam = new OrthographicCamera();
 		cam.position.set(0, 0, 0);
@@ -67,27 +82,30 @@ public class SpeedBox2DTest implements ApplicationListener {
 		fdef.shape = new CircleShape();
 		fdef.shape.setRadius(.5f);
 		body.createFixture(fdef);
+		re = new RenderingS(0, 0, 1, 1);
 	}
 	
 	@Override
 	public void resize(int width, int height) {
 		vp.update(width, height);
 		vp2.update(width, height);
+		re.resize(0, 0, width, height);
 	}
 	
 	@Override
 	public void render() {
+		re.update(0);
+		if (false)
+			return;
+		float delta = Gdx.graphics.getRawDeltaTime() / 1;
 		
-		mainAccu += Gdx.graphics.getRawDeltaTime();
+		mainAccu += delta;
 		float next = mainAccu - lastAccu;
 		if (next > 1) {
 			lastAccu = mainAccu;
 			ups = step;
 			step = 0;
-			//body.applyLinearImpulse(impulse , new Vector2(), true);
-			impulse.set(1 - (MathUtils.random() * 2), 1 - (MathUtils.random() * 2));
 		}
-		float delta = Gdx.graphics.getRawDeltaTime() / 1;
 		
 		if (Gdx.input.isKeyJustPressed(Input.Keys.ENTER)) {
 			body.setAngularVelocity(0);
@@ -99,28 +117,12 @@ public class SpeedBox2DTest implements ApplicationListener {
 			body.setLinearDamping(0);
 		}
 		
-		if (body.getLinearVelocity().len() > 10)
-			body.setLinearVelocity(body.getLinearVelocity().limit(10));
-		
 		body.setLinearDamping(0);
-		boolean slo = true;
-		if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
-			slo = false;
-			body.applyForceToCenter(new Vector2(0, -50), true);
-		}
-		if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
-			slo = false;
-			body.applyForceToCenter(new Vector2(0, 50), true);
-		}
-		if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
-			slo = false;
-			body.applyForceToCenter(new Vector2(-50, 0), true);
-		}
-		if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
-			slo = false;
-			body.applyForceToCenter(new Vector2(50, 0), true);
-		}
-		if (slo)
+		dir.set(input.getXAxis(), input.getYAxis());
+		boolean slo = dir.isZero(0.00001f);
+		if (!slo)
+			body.applyForceToCenter(dir.scl(50), true);
+		else
 			body.setLinearDamping(20f);
 		
 		if (Gdx.input.justTouched()) {
@@ -128,6 +130,9 @@ public class SpeedBox2DTest implements ApplicationListener {
 			int y = Gdx.input.getY();
 			touch(x, y);
 		}
+
+		if (body.getLinearVelocity().len() > 10)
+			body.setLinearVelocity(body.getLinearVelocity().limit(10));
 		
 		accumulator += delta;
 		while (accumulator >= WORLD_TIME_STEP) {
@@ -203,7 +208,7 @@ public class SpeedBox2DTest implements ApplicationListener {
 	}
 	
 	private void touch(int x, int y) {
-		Vector2 v = vp.unproject(new Vector2(x,y));
+		Vector2 v = vp.unproject(new Vector2(x, y));
 		BodyDef def = new BodyDef();
 		def.type = BodyType.DynamicBody;
 		def.position.set(v);
