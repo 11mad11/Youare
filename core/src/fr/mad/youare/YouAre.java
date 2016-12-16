@@ -5,6 +5,7 @@ import java.io.IOException;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.controllers.Controller;
 import com.badlogic.gdx.controllers.ControllerAdapter;
@@ -16,27 +17,27 @@ import com.badlogic.gdx.utils.XmlReader.Element;
 
 import fr.mad.youare.ressource.Ressource;
 import fr.mad.youare.screen.Menu;
+import fr.mad.youare.system.game.map.TiledMapLoader.TMX;
 
 import com.badlogic.gdx.utils.XmlWriter;
 
 public class YouAre extends Game {
 	
 	public final Ressource ressource = new Ressource(this);
-	public final RealInputProcessor input = new RealInputProcessor();
-	private Controller controller;
+	public final BetterInputProcessor input = new BetterInputProcessor();
 	
 	@Override
 	public void create() {
 		testXML();
+		
+		input.setLast(Gdx.input);
+		Gdx.input = input;
 		setScreen(new Menu(this));
-		try {
-			controller = Controllers.getControllers().first();
-		} catch (Throwable e) {}
-		input.setInputs(Gdx.input, controller, null);
 	}
 	
 	private void testXML() {
 		try {
+			System.out.println(Gdx.files.internal("big.xml").file().getAbsolutePath());
 			XmlWriter xml = new XmlWriter(new FileWriter(Gdx.files.internal("big.xml").file()));
 			xml.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
 			xml.element("Root");
@@ -46,12 +47,23 @@ public class YouAre extends Game {
 			comp(xml);
 			xml.pop();
 			xml.close();//TODO condition
-			Element root = new XmlReader().parse(Gdx.files.internal("big.xml"));
-			System.out.println(root.getName());
+			//Element root = new XmlReader().parse(Gdx.files.internal("big.xml"));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+	
+	private void npc(XmlWriter xml) throws IOException {
+		
+	}
+	
+	private void spawn(XmlWriter xml) throws IOException {
+		
+	}
+	
+	private void portal(XmlWriter xml) throws IOException {
+		
 	}
 	
 	private void comp(XmlWriter xml) throws IOException {

@@ -10,5 +10,6 @@ public class Components {
 	public static final ComponentMapper<AnimtionC> animationC = ComponentMapper.getFor(AnimtionC.class);
 	public static final ComponentMapper<ActionC> actionC = ComponentMapper.getFor(ActionC.class);
 	public static final ComponentMapper<MovementC> movementC = ComponentMapper.getFor(MovementC.class);
+	public static final ComponentMapper<InputsC> inputsC = ComponentMapper.getFor(InputsC.class);
 	public static final ComponentMapper<IDC> idC = ComponentMapper.getFor(IDC.class);
 }

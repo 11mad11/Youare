@@ -4,25 +4,20 @@ import java.io.IOException;
 import java.net.InetAddress;
 
 import com.badlogic.ashley.core.Engine;
-import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
+import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.esotericsoftware.minlog.Log;
 
 import fr.mad.youare.YouAre;
-import fr.mad.youare.components.BodyC;
-import fr.mad.youare.components.MovementC;
-import fr.mad.youare.system.ServerNetSystem;
 import fr.mad.youare.system.ClientNetSystem;
-import fr.mad.youare.system.MovementSystem;
 import fr.mad.youare.system.NetSystem;
 import fr.mad.youare.system.PhysicSystem;
-import fr.mad.youare.system.PlayerInputSystem;
 import fr.mad.youare.system.RenderingSystem;
+import fr.mad.youare.system.ServerNetSystem;
 
 public class PlayScreen implements Screen {
 	
@@ -31,34 +26,47 @@ public class PlayScreen implements Screen {
 	private OrthographicCamera cam;
 	private SpriteBatch batch;
 	private PhysicSystem physic;
-	private NetSystem net;
-	private MovementSystem movement;
+	private ServerNetSystem server;
+	private ClientNetSystem client;
+	private YouAre youAre;
+	private GameSystem game;
 	
 	public PlayScreen(YouAre youAre, InetAddress addr, int port) {
-		Log.DEBUG = true;
+		//Log.DEBUG = true;
 		Log.ERROR = true;
 		Log.INFO = true;
+		Log.WARN = true;
+		this.youAre = youAre;
 		cam = new OrthographicCamera(100, 100);
 		batch = new SpriteBatch();
 		engine = new Engine();
 		
 		engine.addSystem(physic = new PhysicSystem());
+		engine.addSystem(render = new RenderingSystem(cam, batch));
+		
+		engine.addSystem(game = new GameSystem());
+		
+		start(addr,port);
+	}
+	
+	private void start(InetAddress addr, int port) {
 		if (addr == null)
 			try {
-				engine.addSystem(net = new ServerNetSystem(youAre, port));
+				engine.addSystem(server = new ServerNetSystem(youAre, port));
+				engine.addSystem(client = new ClientNetSystem(InetAddress.getLocalHost(), port));
+				youAre.input.setBetterInput(client);
 			} catch (IOException e) {
+				throw new Error(e);
 			}
 		else
 			try {
-				engine.addSystem(net = new ClientNetSystem(addr,port));
+				engine.addSystem(client = new ClientNetSystem(addr, port));
+				youAre.input.setBetterInput(client);
 			} catch (Throwable e) {
+				throw new Error(e);
 			}
-		engine.addSystem(movement = new MovementSystem(youAre));
-		engine.addSystem(render = new RenderingSystem(cam, batch));
-		
-		
 	}
-	
+
 	@Override
 	public void show() {
 		

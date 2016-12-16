@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="left-up" width="100" height="100" tilewidth="16" tileheight="16" nextobjectid="7">
+<map version="1.0" orientation="orthogonal" renderorder="left-up" width="100" height="100" tilewidth="16" tileheight="16" nextobjectid="12">
  <tileset firstgid="1" name="tileset" tilewidth="16" tileheight="16" tilecount="280">
   <image source="tileset.png" width="160" height="448"/>
  </tileset>
@@ -24,6 +24,15 @@
   </object>
   <object id="4" type="player" x="1152" y="800" width="16" height="32"/>
   <object id="6" type="entity" x="1312" y="800" width="112" height="128"/>
+  <object id="7" x="1168" y="848" width="32" height="32">
+   <ellipse/>
+  </object>
+  <object id="8" x="1248" y="912">
+   <ellipse/>
+  </object>
+  <object id="9" gid="45" x="1168" y="896" width="16" height="16"/>
+  <object id="10" gid="45" x="1200" y="928" width="16" height="16"/>
+  <object id="11" gid="45" x="1216" y="960" width="16" height="16"/>
  </objectgroup>
  <layer name="Tile Layer 2" width="100" height="100">
   <data encoding="base64">

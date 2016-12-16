@@ -81,7 +81,6 @@ public class Menu implements Screen {
 		//stage.addActor(map = new Map(new TmxMapLoader().load("home.tmx")));
 		stage.addActor(table);
 		stage.setViewport(vp);
-		Gdx.input.setInputProcessor(stage);
 		
 		play.addListener(new ClickListener() {
 			@Override
@@ -97,6 +96,7 @@ public class Menu implements Screen {
 						port = 1535;
 					}
 				} catch (Exception e) {
+					e.printStackTrace();
 					addr=null;
 					port=0;
 				}
@@ -177,6 +177,7 @@ public class Menu implements Screen {
 
 	@Override
 	public void show() {
+		Gdx.input.setInputProcessor(stage);
 		
 	}
 	
@@ -210,7 +211,7 @@ public class Menu implements Screen {
 	
 	@Override
 	public void hide() {
-		// TODO Auto-generated method stub
+		Gdx.input.setInputProcessor(null);
 		
 	}
 	

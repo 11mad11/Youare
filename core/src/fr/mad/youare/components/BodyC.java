@@ -66,10 +66,10 @@ public class BodyC implements Component {
 		c.bodyDef.position.set(x, y);
 		FixtureDef f = new FixtureDef();
 		Polygon p = new Polygon();
-		float v1 = x-(width/2);
-		float v2 = y-(height/2);
-		float v3 = x + width/2;
-		float v4 = y + height/2;
+		float v1 = -(width/2);
+		float v2 = -(height/2);
+		float v3 = width/2;
+		float v4 = height/2;
 		p.setVertices(new float[] { v1, v2, v3, v2, v3, v4, v1, v4 });
 		c.fixtureDefs.put(f,p);
 		return c;

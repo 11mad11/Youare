@@ -7,21 +7,22 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.utils.Bits;
 
 public class MovementC implements Component {
 	
-	public abstract static class MovementBehavior{
-		public abstract void update(float delta);
+	public abstract static class MovementBehavior {
+		public abstract void update(float delta, Bits keyState);
 	}
-
+	
 	private MovementBehavior mov;
 	
 	public MovementC(MovementBehavior mov) {
 		this.mov = mov;
 	}
 	
-	public void update(float delta) {
-		mov.update(delta);
+	public void update(float delta, Bits keyState) {
+		mov.update(delta,keyState);
 	}
 	
 	public static class PlayerMovement extends MovementBehavior {
@@ -35,8 +36,8 @@ public class MovementC implements Component {
 			this.input = input;
 		}
 		
-		public void update(float delta) {
-			if(player.body == null)
+		public void update(float delta,Bits keyState) {
+			if (player.body == null)
 				return;
 			Body body = player.body;
 			if (body.getPosition().len2() > 2500) {
@@ -44,15 +45,16 @@ public class MovementC implements Component {
 				pos.clamp(-50, 50);
 				body.setTransform(-pos.x, -pos.y, 0);
 			}
-			if (input.isKeyJustPressed(Keys.A))
+			//System.out.println(keyState.get(Keys.A));
+			if (keyState.get(Keys.A))
 				body.setTransform(0, 0, 0);
-			if (input.isKeyPressed(Input.Keys.RIGHT))
+			if (keyState.get(Input.Keys.RIGHT))
 				body.applyForceToCenter(f.x, 0, true);
-			if (input.isKeyPressed(Input.Keys.LEFT))
+			if (keyState.get(Input.Keys.LEFT))
 				body.applyForceToCenter(-f.x, 0, true);
-			if (input.isKeyPressed(Input.Keys.UP))
+			if (keyState.get(Input.Keys.UP))
 				body.applyForceToCenter(0, f.y, true);
-			if (input.isKeyPressed(Input.Keys.DOWN))
+			if (keyState.get(Input.Keys.DOWN))
 				body.applyForceToCenter(0, -f.y, true);
 		}
 	}

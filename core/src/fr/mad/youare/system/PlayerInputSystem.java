@@ -15,6 +15,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Body;
 
+import fr.mad.youare.BetterInputProcessor;
 import fr.mad.youare.RealInputProcessor;
 import fr.mad.youare.YouAre;
 import fr.mad.youare.components.BodyC;
@@ -22,7 +23,7 @@ import fr.mad.youare.components.Components;
 import fr.mad.youare.components.TransformC;
 
 public class PlayerInputSystem extends EntitySystem {
-	private RealInputProcessor input;
+	private BetterInputProcessor input;
 	private ImmutableArray<Entity> entitys;
 	public Body player;
 	private Vector2 f = new Vector2(5, 5);
