@@ -1,12 +1,14 @@
-package fr.mad.loader.xmlObjects;
+package fr.mad.storage.xmlObjects;
 
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.XmlReader.Element;
 
-import fr.mad.loader.xmlObjects.Effect.Behavior;
 
 public class Effect implements XmlSerial {
 	
 	public class Behavior {
+
+		public String type;
 		
 	}
 
@@ -29,6 +31,7 @@ public class Effect implements XmlSerial {
 			e.setAttribute("animtionKey", animationKey);
 		if(behavior!=null){
 			Behavior b = behavior;
+			//e.setAttribute("type", b.type);
 			
 		}
 		return e;
@@ -41,5 +44,12 @@ public class Effect implements XmlSerial {
 		if (e == null)
 			e = this.e;
 		
+		name = e.getAttribute("name");
+		animationKey = e.getAttribute("animationKey");
+		Array<Element> b = e.getChildrenByName("Behavior");
+		behavior = null;
+		if(b.size>0){
+			behavior = new Behavior();
+		}
 	}
 }

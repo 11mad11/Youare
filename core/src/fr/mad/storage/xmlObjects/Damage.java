@@ -1,4 +1,4 @@
-package fr.mad.loader.xmlObjects;
+package fr.mad.storage.xmlObjects;
 
 import com.badlogic.gdx.utils.XmlReader.Element;
 

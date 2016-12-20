@@ -5,33 +5,121 @@ import java.io.IOException;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
+import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.controllers.Controller;
+import com.badlogic.gdx.controllers.ControllerAdapter;
+import com.badlogic.gdx.controllers.Controllers;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.XmlReader;
 import com.badlogic.gdx.utils.XmlReader.Element;
+
+import fr.mad.youare.ressource.Ressource;
+import fr.mad.youare.screen.Menu;
+import fr.mad.youare.system.game.map.TiledMapLoader.TMX;
+
 import com.badlogic.gdx.utils.XmlWriter;
 
 public class YouAre extends Game {
 	
+	public final Ressource ressource = new Ressource(this);
+	public final BetterInputProcessor input = new BetterInputProcessor();
+	
 	@Override
 	public void create() {
-		//setScreen(new TestScreen());
+		testXML();
 		try {
+			new TMX().loadTMX("home.tmx");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		input.setLast(Gdx.input);
+		Gdx.input = input;
+		setScreen(new Menu(this));
+	}
+	
+	private void testXML() {
+		try {
+			System.out.println(Gdx.files.internal("big.xml").file().getAbsolutePath());
 			XmlWriter xml = new XmlWriter(new FileWriter(Gdx.files.internal("big.xml").file()));
 			xml.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
 			xml.element("Root");
 			damage(xml);
 			unit(xml);
 			item(xml);
+			comp(xml);
 			xml.pop();
-			xml.close();
-			Element root = new XmlReader().parse(Gdx.files.internal("big.xml"));
-			System.out.println(root.getName());
+			xml.close();//TODO condition
+			//Element root = new XmlReader().parse(Gdx.files.internal("big.xml"));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		System.exit(0);
+	}
+	
+	private void npc(XmlWriter xml) throws IOException {
+		
+	}
+	
+	private void spawn(XmlWriter xml) throws IOException {
+		
+	}
+	
+	private void portal(XmlWriter xml) throws IOException {
+		
+	}
+	
+	private void comp(XmlWriter xml) throws IOException {
+		xml.element("weapons");
+		{
+			
+		}
+		xml.pop();
+		
+		xml.element("Competences");
+		{
+			xml.element("Classe").attribute("name", "barbare");//*
+			{
+				xml.element("Skill").attribute("name", "Charge");
+				{
+					xml.element("Passive");
+					{
+						xml.element("Effect").attribute("name", "SpeedI").pop();
+					}
+					xml.pop();
+					xml.element("Active").attribute("need", "knif");
+					{
+						xml.element("Type");
+						{
+							//cibleAllier cibleEnemy cibleLanceur free
+							xml.element("Zone").attribute("cible", "free");//TODO go in type attribute
+							{
+								xml.element("Size").attribute("raduis", 2).attribute("degree", 20).attribute("offset", 10).pop();
+								xml.element("Limit").attribute("raduis", 10).pop();
+							}
+							xml.pop();
+							
+							//ally enemy
+							xml.element("Direct").attribute("cible", "ally").attribute("number", 1);
+							{
+								xml.element("Transfer").attribute("type", "electrical").attribute("zoneMax", 30).attribute("zone", 2).pop();
+								
+							}
+							xml.pop();
+						}
+						xml.pop();
+						xml.element("Effect").attribute("name", "SpeedV").pop();
+						xml.element("Damage").attribute("name", "Lethal").pop();
+					}
+					xml.pop();
+				}
+				xml.pop();
+			}
+			xml.pop();
+		}
+		xml.pop();
 	}
 	
 	private void damage(XmlWriter xml) throws IOException {

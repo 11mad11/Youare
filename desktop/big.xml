@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<root>
+<Root>
 	<Effects>
 		<Damage name="Lethal"/>
 		<Damage name="Fire"/>
-		<Effect name="Poison">
+		<Effect name="Poison" animationKey="poison">
 			<Behavior type="damage" damage="1">
 				<Timer delay="0" interval="1000" repeat="5"/>
 			</Behavior>
@@ -33,9 +33,9 @@
 		<Unit name="kg" fullName="KiloGramme" type="Weight"/>
 		<Unit name="$" fullName="Dollard" type="Money"/>
 		<Unit name="£" fullName="Pound" type="Money"/>
-		<Conversion from="L" to="m^3" value="0.001"/>
-		<Conversion from="lb" to="kg" value="0.453592"/>
-		<Conversion from="$" to="£" value="0.77038336"/>
+		<Conversion from="L" to="m^3" ratio="0.001"/>
+		<Conversion from="lb" to="kg" ratio="0.453592"/>
+		<Conversion from="$" to="£" ratio="0.77038336"/>
 	</Units>
 	<Item id="un_Nom_Unique">
 		<Info>
@@ -163,4 +163,27 @@
 			</Frames>
 		</Sprite>
 	</Item>
-</root>
+	<weapons/>
+	<Competences>
+		<Classe name="barbare">
+			<Skill name="Charge">
+				<Passive>
+					<Effect name="SpeedI"/>
+				</Passive>
+				<Active need="knif">
+					<Type>
+						<Zone cible="free">
+							<Size raduis="2" degree="20" offset="10"/>
+							<Limit raduis="10"/>
+						</Zone>
+						<Direct cible="ally" number="1">
+							<Transfer type="electrical" zoneMax="30" zone="2"/>
+						</Direct>
+					</Type>
+					<Effect name="SpeedV"/>
+					<Damage name="Lethal"/>
+				</Active>
+			</Skill>
+		</Classe>
+	</Competences>
+</Root>
