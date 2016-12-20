@@ -29,7 +29,12 @@ public class YouAre extends Game {
 	@Override
 	public void create() {
 		testXML();
-		
+		try {
+			new TMX().loadTMX("home.tmx");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		input.setLast(Gdx.input);
 		Gdx.input = input;
 		setScreen(new Menu(this));
